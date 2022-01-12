@@ -1,22 +1,22 @@
 module.exports = [
   {
-    text: "Guide",
-    link: "/scaff/guide",
-    activeMatch: "^/scaff/guide"
+    text: 'Guide',
+    link: '/docs/guide',
+    activeMatch: '^/docs/guide',
   },
   {
-    text: "Config Reference",
-    link: "/scaff/configure",
-    activeMatch: "^/scaff/configure"
+    text: 'Config Reference',
+    link: '/docs/configure',
+    activeMatch: '^/docs/configure',
   },
   {
-    text: "Dev Experience",
-    link: "/scaff/development",
-    activeMatch: "^/scaff/development"
+    text: 'Dev Experience',
+    link: '/docs/development',
+    activeMatch: '^/docs/development',
   },
   {
-    text: "Plugins",
-    link: "/scaff/plugin",
-    activeMatch: "^/scaff/plugin"
-  }
+    text: 'Plugins',
+    link: '/docs/plugin',
+    activeMatch: '^/docs/plugin',
+  },
 ];

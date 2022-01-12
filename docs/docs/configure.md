@@ -52,7 +52,7 @@ module.exports = {
 };
 ```
 
-[For more usage, please check here ↗︎](/scaff/development.md#use-of-extract)
+[For more usage, please check here ↗︎](/development.md#use-of-extract)
 
 ### Built-In Global Registration
 
@@ -71,7 +71,7 @@ module.exports = {
 When the value of a property is set to `true`, the file which the same name in the registry directory, will be registered globally.
 :::
 
-[For more usage, please check here ↗︎](/scaff/development.md)
+[For more usage, please check here ↗︎](/development.md)
 
 ## Native Configure
 
