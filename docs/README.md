@@ -21,7 +21,7 @@ pageClass: vue-scaff-docs
 ---
 
 ::: tip Tips
-vue-scaff requires Node.js >= 14+
+vue-scaff requires Node.js >= 16+
 :::
 
 # get vue-scaff
