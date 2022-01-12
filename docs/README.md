@@ -6,7 +6,7 @@ tagline: A UNIQUE VUE SCAFFOLDING
 heroAlt: 0 CONFIGURATION
 actions:
   - text: START
-    link: /configure.html
+    link: /docs/configure.html
     type: primary
 actionLink: /
 features:
