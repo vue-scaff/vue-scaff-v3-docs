@@ -1,0 +1,76 @@
+.vue-scaff-docs {
+}
+
+:root {
+  // 主题色
+  --c-brand: #ff4a48 !important;
+  --c-brand-light: #ff5f60 !important;
+  --c-tip: #ff4a48 !important;
+
+  // 页款
+  --content-width: 920px;
+
+  // 日照模式
+  & {
+    scroll-behavior: smooth;
+
+    th,
+    td {
+      text-align: center;
+    }
+
+    i.icon {
+      display: inline-block;
+      margin: 0 auto;
+      width: 120px;
+      display: flex;
+      white-space: nowrap;
+      justify-content: center;
+      background-size: 48px;
+      background-repeat: no-repeat;
+      background-position: center top;
+
+      padding-top: 60px;
+    }
+
+    i.chrome {
+      background-image: url(https://developer.mozilla.org/static/media/chrome.4c570865.svg);
+    }
+    i.edge {
+      background-image: url(https://developer.mozilla.org/static/media/edge.40018f6a.svg);
+    }
+    i.firefox {
+      background-image: url(https://developer.mozilla.org/static/media/firefox.51d8a59c.svg);
+    }
+    i.ie {
+      background-image: url(https://developer.mozilla.org/static/media/internet-explorer.cf17782c.svg);
+    }
+    i.opera {
+      background-image: url(https://developer.mozilla.org/static/media/opera.a0ab0c50.svg);
+    }
+    i.safari {
+      background-image: url(https://developer.mozilla.org/static/media/safari.3679eb31.svg);
+    }
+    i.android {
+      background-image: url(https://developer.mozilla.org/static/media/android.7d9bf320.svg);
+    }
+    i.samsung {
+      background-image: url(https://developer.mozilla.org/static/media/samsung-internet.6fd7f423.svg);
+    }
+  }
+
+  // 夜间模式
+  &.dark {
+    i.icon {
+      filter: drop-shadow(white 0 160px);
+      transform: translateY(-160px);
+    }
+  }
+
+  // 封面
+  .hero {
+    img {
+      max-height: 360px;
+    }
+  }
+}
