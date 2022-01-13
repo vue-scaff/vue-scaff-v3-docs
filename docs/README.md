@@ -16,7 +16,7 @@ features:
     details: Configure once, completely abandon the annoying import!
   - title: VERSATILE
     details: Seamlessly switch between vue-cli and vite, i think you will understand :D
-footer: MIT licensed | copyright © 2022 - present by joenix
+footer: MIT licensed | copyright © 2022 - present by joenix.com ・ 沪ICP备20017142号-2
 pageClass: vue-scaff-docs
 ---
 
