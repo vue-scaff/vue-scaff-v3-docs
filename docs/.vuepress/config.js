@@ -31,7 +31,13 @@ module.exports = {
 
   locales: {
     '/': {
+      lang: 'en-US',
       title: 'vue-scaff',
+    },
+    '/zh/': {
+      lang: 'zh-CN',
+      title: 'vue-scaff',
+      selectLanguageName: '简体中文',
     },
   },
 
@@ -56,7 +62,21 @@ module.exports = {
     // 边栏菜单
     sidebar: 'auto',
 
-    // 导航菜单
-    navbar,
+    // Set for Locales
+    locales: {
+      '/': {
+        // 导航菜单
+        navbar: navbar.en,
+        selectLanguageName: 'English',
+      },
+
+      '/zh/': {
+        // 导航菜单
+        navbar: navbar.cn,
+        selectLanguageName: '简体中文',
+        selectLanguageText: '选择语言',
+        selectLanguageAriaLabel: '选择语言',
+      },
+    },
   },
 };
