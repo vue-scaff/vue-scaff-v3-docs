@@ -21,7 +21,10 @@ pageClass: vue-scaff-docs
 ---
 
 ::: tip Tips
-vue-scaff requires Node.js >= 16+
+
+- vue-scaff requires Node.js `>= 12.22.0`
+- if using `typescript`, please update Node.js to `^12.22.0` or `^14.17.0` or `>= 16.0.0`
+
 :::
 
 # get vue-scaff
