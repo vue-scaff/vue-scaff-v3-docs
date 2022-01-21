@@ -29,6 +29,12 @@ pageClass: vue-scaff-docs
 
 # get vue-scaff
 
+Please confirm first if the network supports access to `github`.
+
+```sh
+ping github.com
+```
+
 <CodeGroup>
 
   <CodeGroupItem title="YARN" active>
