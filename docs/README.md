@@ -29,11 +29,7 @@ pageClass: vue-scaff-docs
 
 # get vue-scaff
 
-Please confirm first if the network supports access to `github`.
-
-```sh
-ping github.com
-```
+> Please check if your network supports access to GitHub first. `ping github.com`
 
 <CodeGroup>
 
