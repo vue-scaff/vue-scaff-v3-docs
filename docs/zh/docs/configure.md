@@ -1,19 +1,19 @@
-# Configuration Reference
+# 配置参考
 
-## Global Configure
+## 全局配置
 
-::: tip Tips 1
+::: tip 提示 1
 
-- The file path of configuration can be modified in the property name `configAlias` of `package.json`.
-- Default name is `scaff.config.js`.
+- 可以在 `package.json` 文件的属性名 `configAlias` 中修改配置的文件路径。
+- 默认名称是 `scaff.config.js`.
   :::
 
-::: tip Tips 2
+::: tip 提示 2
 
-- `vue-scaff` takes `/src` as the root directory, which cannot be modified.
+- `vue-scaff` 以 `/src` 为根目录，不可修改。
   :::
 
-### Entry of App
+### 入口文件
 
 ```js
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
 };
 ```
 
-### Theme
+### 主题配置
 
 ```js
 module.exports = {
@@ -30,11 +30,11 @@ module.exports = {
 };
 ```
 
-> More features coming soon ...
+> 更多功能即将推出 ...
 
-### Extract Rules Set
+### 提取规则
 
-💯 An ability that extracts the context of files based on configurations.
+💯 一种可配置的提取文件上下文的能力
 
 ```js
 // Default Configuration
@@ -52,9 +52,9 @@ module.exports = {
 };
 ```
 
-[For more usage, please check here ↗︎](/development.md#use-of-extract)
+[更多用法请看这里 ↗︎](/development.md#use-of-extract)
 
-### Built-In Global Registration
+### 内置全局注册
 
 ```js
 module.exports = {
@@ -66,16 +66,16 @@ module.exports = {
 };
 ```
 
-::: tip Tips
+::: tip 提示
 
-When the value of a property is set to `true`, the file which the same name in the registry directory, will be registered globally.
+当某个属性的值设置为 `true` 时，注册目录中的同名文件将被全局注册。
 :::
 
-[For more usage, please check here ↗︎](/development.md)
+[更多用法请看这里 ↗︎](/development.md)
 
-## Native Configure
+## 本地配置
 
-> Support Native Configuration by `vue-cli` or `vite`
+> 通过 `vue-cli` 或 `vite` 构建，支持本地配置
 
-1. Use `vue.config.js` in `cli` type, [see official docs](https://cli.vuejs.org/)
-2. Use `vite.config.js` in `vite` type, [see official docs](https://vitejs.dev/)
+1. 通过 `cli` 构建，使用 `vue.config.js` [查看官方文档](https://cli.vuejs.org/)
+2. 通过 `vite` 构建，使用 `vite.config.js` [查看官方文档](https://vitejs.dev/)
