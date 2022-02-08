@@ -42,8 +42,8 @@ this.$util.plus(10, 20); // 30
 <script>
 export default {
   props: {
-    info: String,
-  },
+    info: String
+  }
 };
 </script>
 ```
@@ -64,12 +64,14 @@ export default {
 // Definition in `/pages/sample/route.js`
 export default () => {
   return {
-    path: '/sample',
-    name: 'sample',
-    component: () => import('@/pages/sample/index.vue'),
+    path: "/sample",
+    name: "sample",
+    component: () => import("@/pages/sample/index.vue")
   };
 };
 ```
+
+[How to change `mode` ?](#_1-proxy-config)
 
 ### 4. \$store
 
@@ -84,19 +86,19 @@ If you need to use `module` in store, it should to configure mixins in the [regi
 // Definition in `/pages/sample/store.js`
 export default () => {
   const state = {
-    nick: `joenix`,
+    nick: `joenix`
   };
 
   const mutations = {
     UPDATE_NICK(state, value) {
       state.nick = value;
-    },
+    }
   };
 
   const actions = {
     async speaker({ commit }, nickname) {
-      commit('UPDATE_NICK', nickname);
-    },
+      commit("UPDATE_NICK", nickname);
+    }
   };
 
   return { state, mutations, actions };
@@ -168,7 +170,7 @@ export default (element, binding) => {
 // Definition in `/i18n/en-US.js`
 export default () => {
   return {
-    hello: `Hello, {message}!`,
+    hello: `Hello, {message}!`
   };
 };
 ```
@@ -186,8 +188,8 @@ export default () => {
 // Rule Set in `scaff.config.js`
 module.exports = {
   extract: {
-    custom: `/custom/*.js`,
-  },
+    custom: `/custom/*.js`
+  }
 };
 ```
 
@@ -236,9 +238,9 @@ PS: `{context}.get` can return the original context.
 export default ({ route }) => {
   route.proxy.config = settings => {
     settings.push({
-      path: '/example',
-      name: 'example',
-      component: () => import('/src/pages/example/index.vue'),
+      path: "/example",
+      name: "example",
+      component: () => import("/src/pages/example/index.vue")
     });
   };
 };
@@ -250,8 +252,8 @@ export default ({ route }) => {
 export default ({ route }) => {
   route.proxy.config = settings => {
     return {
-      mode: 'hash',
-      base: '/path/to/project',
+      mode: "hash",
+      base: "/path/to/project"
     };
   };
 };
@@ -274,13 +276,13 @@ export default ({ route }) => {
 - add plugin with `extension` in store
 
 ```js
-import VuexORM from '@vuex-orm/core';
+import VuexORM from "@vuex-orm/core";
 
 export default ({ store }) => {
   const database = new VuexORM.Database();
 
   return {
-    plugins: [VuexORM.install(database)],
+    plugins: [VuexORM.install(database)]
   };
 };
 ```
@@ -291,7 +293,7 @@ get the method `foreach` in `utils` by `get`, then register `icons` as `componen
 
 ```js
 // version: ^3.0.0
-import * as Icons from '@ant-design/icons-vue';
+import * as Icons from "@ant-design/icons-vue";
 
 export default ({ app, util }) => {
   util.get().foreach(Icons, (icon, key) => {
@@ -313,7 +315,7 @@ module.exports = {
   api: true,
   route: true,
   store: true,
-  mixin: true,
+  mixin: true
 };
 ```
 
@@ -324,13 +326,13 @@ The `host` Configuration will be passed to the `api` as first parameter.
 ```js
 // Definition Host in `/registry/host.js`
 export default {
-  host: `http://vue-scaff.com`,
+  host: `http://vue-scaff.com`
 };
 
 // Definition Api in `/registry/api.js`
 export default ({ host }) => {
   return {
-    mock: `${host}/path/to/api`,
+    mock: `${host}/path/to/api`
   };
 };
 ```
@@ -361,11 +363,11 @@ export default ({ $http, $api }) => {
 // Definition Route in `/registry/route.js`
 export default [
   {
-    path: '/',
+    path: "/",
     redirect: {
-      name: 'start',
-    },
-  },
+      name: "start"
+    }
+  }
 ];
 ```
 
@@ -388,15 +390,15 @@ this.state.oss;
 
 ```js
 // Use `mapState` from `vuex`
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 // Sample Code
 export default {
   computed: {
     ...mapState({
-      state: state => state,
-    }),
-  },
+      state: state => state
+    })
+  }
 };
 ```
 
@@ -435,8 +437,8 @@ async speaker() {
 const state = {
   numeric: {
     a: 100,
-    b: 200,
-  },
+    b: 200
+  }
 };
 
 const actions = {
@@ -444,10 +446,10 @@ const actions = {
     return {
       numeric: {
         a: state.a,
-        b: state.a + state.b,
-      },
+        b: state.a + state.b
+      }
     };
-  },
+  }
 };
 
 // Access State
