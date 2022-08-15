@@ -1,0 +1,1 @@
+import{_ as t,o as n,c as s,d as e,e as a}from"./app.878a1ba4.js";const o={},c=e("h1",{id:"plugins",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#plugins","aria-hidden":"true"},"#"),a(" Plugins")],-1),l=e("blockquote",null,[e("p",null,"TODO")],-1),r=[c,l];function _(i,d){return n(),s("div",null,r)}var h=t(o,[["render",_],["__file","plugin.html.vue"]]);export{h as default};

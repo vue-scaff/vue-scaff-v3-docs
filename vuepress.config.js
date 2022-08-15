@@ -1,3 +1,5 @@
+const { defaultTheme } = require('@vuepress/theme-default')
+
 // Use Preset
 const preset = require('./preset');
 
@@ -24,7 +26,7 @@ module.exports = {
       'link',
       {
         rel: 'icon',
-        href: 'http://oss.joenix.com/vue-scaff/vue-scaff-fox.png',
+        href: 'https://oss.vue-scaff.com/vue-scaff-fox.png',
       },
     ],
   ],
@@ -49,9 +51,10 @@ module.exports = {
    * 主题配置
    * ========== ========== ========== ========== ==========
    */
-  themeConfig: {
+  theme: defaultTheme({
+
     // 顶部 Logo
-    logo: 'http://oss.joenix.com/vue-scaff/vue-scaff-fox.png',
+    logo: 'https://oss.vue-scaff.com/vue-scaff-fox.png',
 
     // Github Repo
     repo: 'joenix/vue-scaff',
@@ -78,5 +81,5 @@ module.exports = {
         selectLanguageAriaLabel: '选择语言',
       },
     },
-  },
+  }),
 };

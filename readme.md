@@ -1,1 +1,1 @@
-http://vue-scaff.com
+https://vue-scaff.com

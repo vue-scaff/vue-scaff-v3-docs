@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: http://oss.joenix.com/vue-scaff/vue-scaff-fox.png
+heroImage: https://oss.vue-scaff.com/vue-scaff-fox.png
 heroText: vue-scaff
 tagline: A UNIQUE VUE SCAFFOLDING
 heroAlt: 0 CONFIGURATION
