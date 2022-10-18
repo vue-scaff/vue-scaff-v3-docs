@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-1324464c","path":"/zh/docs/plugin.html","title":"\u63D2\u4EF6","lang":"zh-CN","frontmatter":{},"excerpt":"","headers":[],"git":{"updatedTime":1643189720000,"contributors":[{"name":"Anko","email":"anko.zxy@gmail.com","commits":1},{"name":"joenix","email":"joenix.com@gmail.com","commits":1}]},"filePathRelative":"zh/docs/plugin.md"}');export{e as data};

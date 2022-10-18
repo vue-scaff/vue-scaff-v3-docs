@@ -38,28 +38,28 @@
     }
 
     i.chrome {
-      background-image: url(https://developer.mozilla.org/static/media/chrome.4c570865.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/chrome.png);
     }
     i.edge {
-      background-image: url(https://developer.mozilla.org/static/media/edge.40018f6a.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/edge.png);
     }
     i.firefox {
-      background-image: url(https://developer.mozilla.org/static/media/firefox.51d8a59c.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/firefox.png);
     }
     i.ie {
-      background-image: url(https://developer.mozilla.org/static/media/internet-explorer.cf17782c.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/ie.png);
     }
     i.opera {
-      background-image: url(https://developer.mozilla.org/static/media/opera.a0ab0c50.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/opera.png);
     }
     i.safari {
-      background-image: url(https://developer.mozilla.org/static/media/safari.3679eb31.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/safari.png);
     }
     i.android {
-      background-image: url(https://developer.mozilla.org/static/media/android.7d9bf320.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/android.png);
     }
     i.samsung {
-      background-image: url(https://developer.mozilla.org/static/media/samsung-internet.6fd7f423.svg);
+      background-image: url(https://oss.vue-scaff.com/icons/samsung.png);
     }
   }
 
@@ -75,6 +75,19 @@
   .hero {
     img {
       max-height: 360px;
+    }
+  }
+
+  // 二维码
+  .qr {
+    .feature {
+      flex-basis: 36%;
+      max-width: 36%;
+      padding: 7%;
+    }
+
+    img {
+      border-radius: 6px;
     }
   }
 }

@@ -1,67 +1,147 @@
-# Development Experience
+# 高阶开发经验
 
-> 😜 Some optimizations, hope to bring you a little surprise ~
+## 基础使用
 
-## Usage of Extract
+> 😜 我们对 Vue 全家桶做了些许优化，希望给您带来不一样的卓越开发体验 ~
 
-::: tip Tips
+### 1. 如何发送请求？
 
-- The extracted context, which will be registered globally as a property by `app.config.globalProperties`, it can be accessed by keyword `this`.
-- If you want to access the built-in properties, you need to add the `$` prefix, such as: `$util`、`$directive`、`$component`, etc.
+::: tip 提示
+
+1. `vue-scaff` 内置 `http` 请求（基于 `ky`），使用 `$http` 关键字唤起
+2. 并提供 `host` 与 `api` 配置方式，用 `$api` 访问
+3. 支持请求类型 `get`、`post`、`put`、`head`、`patch`、`delete`，在 `$http` 实例上使用同名方法
 
 :::
 
-### 1. \$util
-
-- Default Rule: `/utils/*.js`
-- Sample Code:
+第一步：配置 host，在 registry/host.js 中
 
 ```js
-// Definition in `/utils/plus.js`
-export default (a, b) => {
-  return a + b;
+{
+  host: <host_address>
+}
+```
+
+第二步：配置请求地址，在 registry/api.js 中
+
+```js
+export default ({ host }) => {
+  return {
+    mock: <api_address>,
+  };
 };
 ```
 
+第三步：在 vue 中调用
+
 ```js
-// Use in Vue
-this.$util.plus(10, 20); // 30
+await this.$http(this.$api.mock).get(params);
 ```
 
-### 2. \$component
+或，在 store 中调用
 
-- Default Rule: `/components/**/*.vue`
-- Sample Code:
+```js
+export default ({ $http, $api }) => {
+  const actions = {
+    async GET_MOCK_DATA({}, params) {
+      await $http($api.mock).get(params);
+    },
+  };
+  return { actions };
+};
+```
 
-```vue
-<!-- Definition in `/components/message/index.vue` -->
-<template>
-  <span>{{ info }}</span>
-</template>
+### 2. 如何使用 STORE（状态管理）
 
-<script>
+::: tip 提示
+考虑到数据驱动的实际应用场景，`vue-scaff` 在不破坏原生 vuex 的前提下，对其进行了些许优化：
+
+1. 每个 `store.js` 文件需要 export 一个函数，`vue-scaff` 会将 `registry.utils` 注入其中
+2. 在函数的尾部，`vue-scaff` 会根据所 return 的 `state` 与 `actions` 进行 module 注册，且默认开启 `namespace`
+3. `vue-scaff` 会甄别函数中所返回的 json 数据，如果其键值在 `state` 中真实有效，则会自动更新到 `state` 中
+4. 此外，如果在 `registry.mixin` 中进行 map 配置，则可在 vue 中直接使用 module
+5. 最后，`vue-scaff` 提供一个全局 `store` 配置，可在 `/registry/store.js` 中进行配置
+
+:::
+
+一份完整的 store 示例
+
+```js
+export default ({ $http, $api }) => {
+  const state = {
+    author: 'who',
+  };
+
+  const actions = {
+    async GET_MOCK_DATA({ commit }, params = {}) {
+      return {
+        author: 'joenix',
+      };
+    },
+  };
+
+  return { state, actions };
+};
+```
+
+storeMapping 配置，在 registry.maxin 中
+
+```js
+import { mapState } from 'vuex';
+
 export default {
-  props: {
-    info: String,
+  computed: {
+    ...mapState({
+      // Global Store
+      app: app => app,
+      // Sample
+      sample: ({ sample }) => sample,
+    }),
   },
 };
-</script>
 ```
 
-```vue
-<!-- Use in Vue -->
-<template>
-  <message info="Hello World" />
-</template>
-```
-
-### 3. \$route
-
-- Default Rule: `/pages/**/route.js`
-- Sample Code:
+在 vue 中使用
 
 ```js
-// Definition in `/pages/sample/route.js`
+// 属性访问
+this.sample.author; // who
+
+// 函数调用
+const { author } = this.$store.dispatch('sample/GET_MOCK_DATA'); // joenix
+```
+
+### 3. 模块化路由配置
+
+::: tip 提示
+
+1. `vue-scaff` 的默认路由规则，会汲取 `/src/pages` 下 `route.js` 文件中的配置，并注册到 `vue-router` 中
+2. 此外，`vue-scaff` 提供一个全局 `route` 配置，可在 `/registry/route.js` 中进行配置
+
+:::
+
+全局 route 配置示例
+
+```js
+export default [
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: {
+      name: '404',
+    },
+  },
+  {
+    path: '/',
+    redirect: {
+      name: 'index',
+    },
+  },
+];
+```
+
+局部 route 配置示例
+
+```js
 export default () => {
   return {
     path: '/sample',
@@ -71,180 +151,155 @@ export default () => {
 };
 ```
 
-### 4. \$store
+### 4. 组件封装
 
-:::tip Tips
-If you need to use `module` in store, it should to configure mixins in the [registry](#use-of-registry) set.
+::: tip 提示
+
+1. 组件的默认配置规则系 `/components/*.vue`，即：`vue-scaff` 会汲取配置目录下的 `.vue` 文件，并以组件中的 `name` 作为组件名称，注册组件。
+2. 当 `.vue` 文件中没有 `name` 配置时，会以 `.vue` 文件的文件名代替 `name`，注册组件。
+
 :::
 
-- Default Rule: `/pages/**/store.js`
-- Sample Code:
+此处没有示例 😜
+
+### 5. 指令拓展
+
+::: tip 提示
+
+1. 默认配置：`/directives/*.js`
+2. 以文件名作为指令名称注册。
+
+:::
+
+示例，`/directives/css.js`
 
 ```js
-// Definition in `/pages/sample/store.js`
-export default () => {
-  const state = {
-    nick: `joenix`,
-  };
-
-  const mutations = {
-    UPDATE_NICK(state, value) {
-      state.nick = value;
-    },
-  };
-
-  const actions = {
-    async speaker({ commit }, nickname) {
-      commit('UPDATE_NICK', nickname);
-    },
-  };
-
-  return { state, mutations, actions };
-};
-```
-
-```js
-// Use in Vue
-async mounted() {
-  // Execute Action
-  await this.$store.dispatch('sample/speaker', 'Trump');
-  // Access State
-  console.log(this.$store.state.sample.name);
+export default (element, { value }) => {
+  target.style = { ...target.style, { ...value } }
 }
 ```
 
-### 5. \$filter
+在 template 中的调用示例
 
-::: tip Tips
+```vue
+<div v-css={ position: 'absolute' } />
+```
 
-`filters` has be removed and no supported in Vue 3.x. [official docs](https://v3.cn.vuejs.org/guide/migration/filters.html)
+### 6. 国际化（i18n）
+
+::: tip 提示
+
+1. `vue-scaff` 会检测浏览器的语言环境，并调用对应的 `i18n` 文件配置
+2. 默认配置规则：`/i18n/*.js`
+3. 文件名请采用标准的国际化（internationalization）命名规则，如：简体中文 - `zh-CN.js`
 
 :::
 
-- Default Rule: `/filters/*.js`
-- Sample Code:
+配置示例
 
 ```js
-// Definition in `/pages/filters/cash.js`
-export default value => {
-  return `$${value}.00`;
-};
-```
-
-```vue
-<!-- Use in Vue -->
-<template>
-  <div>{{ $filter.dollar(100) }}</div>
-</template>
-```
-
-### 6. \$directive
-
-- Default Rule: `/directives/*.js`
-- Sample Code:
-
-```js
-// Definition in `/directives/position.js`
-export default (element, binding) => {
-  element.style = { position: `fixed`, ...binding.value };
-};
-```
-
-```vue
-<!-- Use in Vue -->
-<template>
-  <div v-position="{ top: `100px` }" />
-</template>
-```
-
-### 7. \$i18n
-
-[More Guides](https://vue-i18n.intlify.dev/)
-
-- Default Rule: `/i18n/*.js`
-- Sample Code:
-
-```js
-// Definition in `/i18n/en-US.js`
-export default () => {
+export default util => {
   return {
-    hello: `Hello, {message}!`,
+    lang: '中文',
   };
 };
 ```
 
+在 template 中的调用示例
+
 ```vue
-<!-- Use in Vue -->
-<template>
-  <div>{{ $t(`hello`, { message: `World` }) }}</div>
-</template>
+<div>{{ $t('lang') }}</div>
 ```
 
-### 8. custom
+### 7. 自定义（属性或方法）
 
-```js
-// Rule Set in `scaff.config.js`
-module.exports = {
-  extract: {
-    custom: `/custom/*.js`,
-  },
-};
-```
+> 除了默认配置外，`vue-scaff` 还提供了一种 自定义 的方式，可用于创建 配置预设 或 工具函数 等。
 
-- Sample Code:
+第一步：在配置文件的 `extract` 中添加如下配置
 
-```js
-// Definition in `/custom/say.js`
-export default word => console.log(`i say: ${word}`);
-```
-
-```js
-// Use in Vue
-mounted() {
-  this.custom.say('halo');
+```json
+{
+  "extract": {
+    "custom": "/custom/*.js"
+  }
 }
 ```
 
-## Extension of Extract
+第二步：在 `src` 下创建同名目录 `custom`，并在该目录下创建 esm 文件
 
-::: tip Tips
+```sh
+· `/src`
+   └─ `/custom`
+       └─ `/meta.js`（示例）
+```
 
-- Each extracted context can be accessed in `main.js` (`scaff.ts` in `vite`) as parameters.
-
-:::
+第三步：编写数据，并调用
 
 ```js
-export default ({ app, util, route, store, i18n }) => {
-  // some code
+// meta.js
+export default {
+  author: 'joenix',
+  birth: '1985-09-13',
+};
+
+// 在 vue 中调用
+console.log(this.custom.meta);
+
+// 在 store 中使用
+export default ({ custom }) => {
+  const state = {
+    author: custom.author
+  }
+  return { state };
 };
 ```
 
-:::tip Each of the extracted built-in context mounts a `proxy`
+## 进阶使用
 
-1.  `{context}.proxy.config` can be used to configure the context before instantiation.
-2.  `{context}.proxy.extension` allows extending the instantiation of context, before `app.use`.
+### 1. 什么是 `extract`（汲取）？
 
-PS: `{context}.get` can return the original context.
+::: tip 说明
+
+1. `vue-scaff` 独创了一种上下文汲取技术，利用 `globEager`（`cli` 版本下为 `require`）特性，扫描项目文档并根据内置的 `worker` 工作流，对文件进行归类与注册处理
+2. 所有被汲取的 `extracts` 类别，均会以对象的形式被注入到 `/src/scaff.ts`（`cli` 版本在 `/src/main.js`） 中的 export 函数中，开发者可以对其进行配置或拓展操作
 
 :::
 
-### 1. `proxy.config`
+代码示例
 
-- add a route setting with `config`
+```js
+export default ({ app, util, route, store, i18n }, next) => {
+  // some code
+  ...
+
+  // 实例化 App
+  next();
+};
+```
+
+### 2. proxy.config
+
+::: tip 说明
+
+`{extract}.proxy.config` 可用于对 `extract` 进行配置操作
+
+:::
+
+示例一：向 `route` 中添加配置
 
 ```js
 export default ({ route }) => {
   route.proxy.config = settings => {
     settings.push({
-      path: '/example',
-      name: 'example',
-      component: () => import('/src/pages/example/index.vue'),
+      path: '/sample',
+      name: 'sample',
+      component: () => import('/src/pages/sample/index.vue'),
     });
   };
 };
 ```
 
-- update the mode to `hash`
+示例二：配置 `route` 模式
 
 ```js
 export default ({ route }) => {
@@ -257,9 +312,15 @@ export default ({ route }) => {
 };
 ```
 
-### 2. `proxy.extension`
+### 3. proxy.extension
 
-- use `beforeEach` in `extension`
+::: tip 说明
+
+`{extract}.proxy.config` 允许开发者对 `extract` 进行拓展操作，即：`extract` 实例化之后所提供的 APIs
+
+:::
+
+示例一：使用 `beforeEach` 拦截器
 
 ```js
 export default ({ route }) => {
@@ -271,7 +332,7 @@ export default ({ route }) => {
 };
 ```
 
-- add plugin with `extension` in store
+示例二：为 `store` 添加三方插件
 
 ```js
 import VuexORM from '@vuex-orm/core';
@@ -285,12 +346,17 @@ export default ({ store }) => {
 };
 ```
 
-### 3. `get`
+### 4. 通过 get 获取原始配置
 
-get the method `foreach` in `utils` by `get`, then register `icons` as `components`
+::: tip 说明
+
+`vue-scaff` 为每个 `extract` 额外提供了一个 `get` 函数，旨在获取其 module 化的原始配置
+
+:::
+
+示例：在入口处调用 `utils` 中的方法 `foreach`，从而注册 Icons
 
 ```js
-// version: ^3.0.0
 import * as Icons from '@ant-design/icons-vue';
 
 export default ({ app, util }) => {
@@ -298,158 +364,4 @@ export default ({ app, util }) => {
     app.component(key, icon);
   });
 };
-```
-
-## Usage of Registry
-
-:::tip Tips
-`vue-scaff` will auto-registry the context in the directory with the same name under the `registry` to the global, when property be set `true`.
-:::
-
-```js
-// Default Configuration
-module.exports = {
-  host: true,
-  api: true,
-  route: true,
-  store: true,
-  mixin: true,
-};
-```
-
-### 1. host and api
-
-The `host` Configuration will be passed to the `api` as first parameter.
-
-```js
-// Definition Host in `/registry/host.js`
-export default {
-  host: `http://vue-scaff.com`,
-};
-
-// Definition Api in `/registry/api.js`
-export default ({ host }) => {
-  return {
-    mock: `${host}/path/to/api`,
-  };
-};
-```
-
-```js
-// Use in Vue
-mounted() {
-  console.log(this.$api.mock);
-}
-
-// Use in Store
-export default ({ $http, $api }) => {
-  const actions = {
-    async speaker() {
-      await $http.get($api.mock);
-    },
-  };
-};
-```
-
-[How to use `$http`](#_1-http)
-
-### 2. registry.route
-
-`registry.route` supports both array and object settings.
-
-```js
-// Definition Route in `/registry/route.js`
-export default [
-  {
-    path: '/',
-    redirect: {
-      name: 'start',
-    },
-  },
-];
-```
-
-### 3. registry.store
-
-It's recommended to set `store` in `mixin` as globally set:
-
-```js
-{
-  state: state => state;
-}
-```
-
-```js
-// Use Globally Store in Vue
-this.state.oss;
-```
-
-### 4. registry.mixin
-
-```js
-// Use `mapState` from `vuex`
-import { mapState } from 'vuex';
-
-// Sample Code
-export default {
-  computed: {
-    ...mapState({
-      state: state => state,
-    }),
-  },
-};
-```
-
-## Advanced Development
-
-### 1. `$http`
-
-Since Version 3, we decided to use `ky` as the base dependency for `$http`.
-
-[Read More](https://www.npmjs.com/package/ky)
-
-```js
-// Use in Vue with `$api`
-async mounted() {
-  await this.$http.post(this.$api.mock, {json: {foo: true}}).json();
-}
-
-// Use in Vuex with `$api` (Recommended)
-async speaker() {
-  await $http.post($api.mock, {json: {foo: true}}).json();
-}
-```
-
-[How to set `$api`](#_1-host-and-api)
-
-### 2. vuex-fast
-
-:::tip Why Vuex Fast
-
-- For a long time, I've been thingking about a more elegant way of state managing than `Modeling Ideas`.
-- Until I thought of this way: [vuex-fast](https://www.npmjs.com/package/vuex-fast), so I integrated it in.
-  :::
-
-```js
-// Use `return` to update `state`
-const state = {
-  numeric: {
-    a: 100,
-    b: 200,
-  },
-};
-
-const actions = {
-  calculate({ state }) {
-    return {
-      numeric: {
-        a: state.a,
-        b: state.a + state.b,
-      },
-    };
-  },
-};
-
-// Access State
-console.log(state.numeric); // { a: 100, b: 300 }
 ```

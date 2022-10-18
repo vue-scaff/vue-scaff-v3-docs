@@ -1,13 +1,14 @@
-const { defaultTheme } = require('@vuepress/theme-default')
+// Default Theme
+import { defaultTheme } from 'vuepress';
+
+// Use Utils
+// import { getDirname, path } from '@vuepress/utils';
 
 // Use Preset
-const preset = require('./preset');
-
-// Get Setting
-const { navbar, plugins } = preset;
+import { navbar, plugins } from './preset';
 
 // Exports
-module.exports = {
+export default {
   // Base URL
   base: '/',
 
@@ -44,7 +45,7 @@ module.exports = {
   },
 
   // Use Plugins
-  plugins,
+  //   plugins,
 
   /**
    * 文档: https://v2.vuepress.vuejs.org/zh/reference/default-theme/config.html#locale-配置
@@ -52,7 +53,6 @@ module.exports = {
    * ========== ========== ========== ========== ==========
    */
   theme: defaultTheme({
-
     // 顶部 Logo
     logo: 'https://oss.vue-scaff.com/vue-scaff-fox.png',
 
